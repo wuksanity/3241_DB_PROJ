@@ -1,18 +1,36 @@
 import java.util.*;
+import java.util.Scanner;
+
 
 public class App {
 
     public static void main(String[] args) throws Exception {
 
-
         Scanner input = new Scanner(System.in);
-        System.out.println("Programming running...press (q) at any time to quit.\n");
-        Person p = new Person("3304018119", "Walker", "Riley", "293 E 17 Ave", "w@gmail.com");
-        Member m = new Member("3304018119", "Walker", "Riley", "293 E 17 Ave", "w@gmail.com", 1, 20.5, "1/1/2023");
-        p.updateEmail("pp");
-        m.updateEmail("mm");
-        System.out.println(m.showEmail());
 
+        System.out.println("Welcome to the Equipment Rental Program");
+
+        Session session = new Session(); //new session object
+        session.displayStart();
+        String selection;
+        boolean valid = true;
+
+        while (valid) {
+            selection = input.nextLine();
+            if (selection.equals("a")) { //add 
+                session.displayAdd(input);
+                session.displayStart();
+            } else if (selection.equals("b")) { //view and edit
+                session.displaySearch();
+                session.displayStart();
+            } else if (selection.equals("q")) { //stop program
+                valid = false;
+            } else {
+                System.out.println("Please enter a valid input");
+            }
+        }
+
+        System.out.println("End Session");
         input.close();
 
     }
