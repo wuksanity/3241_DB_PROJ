@@ -14,6 +14,24 @@ public class Member extends Person {
         activated = true;
     }
 
-    
+    public void updateStatus(Boolean active) {
+        activated = active;
+    }
+
+    public void updateWarehouseDistance(double distance) {
+        warehouseDist = distance;
+    }
+
+    public String showStartDate() {
+        return startDate;
+    }
+
+    public double showWarehouseDistance() {
+        return warehouseDist;
+    }
+
+    public Boolean isActive() {
+        return activated;
+    }
 
 }
