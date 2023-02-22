@@ -11,6 +11,7 @@ public class App {
         System.out.println("Welcome to the Equipment Rental Program");
 
         Session session = new Session(); //new session object
+        session.createFakeData(); //create fake data
         session.displayStart();
         String selection;
         boolean valid = true;
@@ -21,7 +22,7 @@ public class App {
                 session.displayAdd(input);
                 session.displayStart();
             } else if (selection.equals("b")) { //view and edit
-                session.displaySearch();
+                session.displaySearch(input);
                 session.displayStart();
             } else if (selection.equals("q")) { //stop program
                 valid = false;

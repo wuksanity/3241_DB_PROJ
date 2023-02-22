@@ -7,13 +7,13 @@ public class Person {
     String address;
     String email;
 
-    public Person(String phoneNum, String firstName, String lastName, String addr, String emailAdd) {
+    public Person(String phone, String fName, String lName, String address, String email) {
 
-        phone = phoneNum;
-        firstName = fName;
-        lastName = lName;
-        address = addr;
-        email = emailAdd;
+        this.phone = phone;
+        this.fName = fName;
+        this.lName = lName;
+        this.address = address;
+        this.email = email;
 
     }
 
@@ -31,6 +31,10 @@ public class Person {
 
     public String showPhone() {
         return phone;
+    }
+
+    public String showName() {
+        return fName + " " + lName;
     }
 
     public String showAddress() {

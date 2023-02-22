@@ -1,15 +1,15 @@
 public class Element {
     
     // class variables 
-    int serialNum;
+    String serialNum;
     String name; 
-    int modelNum;
+    String modelNum;
     String manufacturer;
     String warrantyExpiration;
     Boolean activeStatus;
     String year;
 
-    public Element(int serial, String elName, int model, String manufact, String warExpiration, String yr) {
+    public Element(String serial, String elName, String model, String manufact, String warExpiration, String yr) {
         serialNum = serial;
         name = elName;
         modelNum = model;
@@ -23,7 +23,7 @@ public class Element {
         activeStatus = isActive;
     }
 
-    public int showSerialNum() {
+    public String showSerialNum() {
         return serialNum;
     }
 
@@ -31,7 +31,7 @@ public class Element {
         return name;
     }
 
-    public int showModelNum() {
+    public String showModelNum() {
         return modelNum;
     }
 

@@ -1,14 +1,14 @@
 public class Warehouse {
     
     // class variables
-    int storageCapacity;
-    int droneCapacity;
+    String storageCapacity;
+    String droneCapacity;
     String address;
     String phone;
     String manager;
     String city;
 
-    public Warehouse(int storeCapac, int droneCapac, String addr, String phoneNum, String mngr, String cit) {
+    public Warehouse(String storeCapac, String droneCapac, String addr, String phoneNum, String mngr, String cit) {
         storageCapacity = storeCapac;
         droneCapacity = droneCapac;
         address = addr;
@@ -17,11 +17,11 @@ public class Warehouse {
         city = cit;
     }
 
-    public void updateStorageCapacity(int newCapacity) {
+    public void updateStorageCapacity(String newCapacity) {
         storageCapacity = newCapacity;
     }
 
-    public void updateDroneCapacity(int newCapacity) {
+    public void updateDroneCapacity(String newCapacity) {
         droneCapacity = newCapacity;
     }
 
@@ -33,11 +33,11 @@ public class Warehouse {
         manager = newMngr;
     }
 
-    public int showStorageCapacity() {
+    public String showStorageCapacity() {
         return storageCapacity;
     }
 
-    public int showDroneCapacity() {
+    public String showDroneCapacity() {
         return droneCapacity;
     }
 
