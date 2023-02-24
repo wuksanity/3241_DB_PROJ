@@ -366,7 +366,7 @@ public class Session {
 
 
                         } else if( answer.equals("d")){
-                            Warehouse_Record.remove(phone);
+                            Person_Record.remove(phone);
                             System.out.println("Person with Number " + phone + " has been removed");
                         } else{
                             System.out.println("Invalid entry, try again");
