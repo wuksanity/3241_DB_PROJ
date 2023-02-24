@@ -450,7 +450,7 @@ public class Session {
 
 
                         } else if( answer.equals("d")){
-                            Warehouse_Record.remove(serial);
+                            Element_Record.remove(serial);
                             System.out.println("Element with Serial Number " + serial + " has been removed");
                         } else{
                             System.out.println("Invalid entry, try again");
