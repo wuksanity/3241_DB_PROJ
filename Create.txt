@@ -1,0 +1,263 @@
+
+create table PERSON1
+(First_name varchar(20) not null, 
+ Last_name varchar(20) not null,
+ Address varchar(50),
+ Phone varchar(15),
+ Email varchar(50),
+ Employee_id int,
+ User_id int,
+ primary key(phone)
+ );
+ 
+create table PERSON2
+(Employee_id int, 
+ First_name varchar(20) not null,
+ Last_name varchar(20) not null, 
+ Emp_start_date varchar(10),
+ primary key(employee_id)
+ );
+ 
+create table PERSON3
+(User_id int,
+ Warehouse_distance int, 
+ Activated boolean,
+ Start_date varchar(10),
+ primary key(user_id)
+ );
+ 
+create table PERSON4
+(City varchar(20),
+ First_name varchar(20) not null,
+ Last_name varchar(20) not null, 
+ Address varchar(50),
+ Email varchar(50),
+ User_id int,
+ primary key(user_id),
+ foreign key(City) references COMMUNITY(City)
+ );
+ 
+create table PERSON5
+(First_name varchar(20) not null,
+ Last_name varchar(20) not null, 
+ Address varchar(50),
+ Email varchar(50),
+ Employee_id int, 
+ primary key(employee_id),
+ foreign key(Address) references WAREHOUSE1(Address)
+ );
+ 
+create table REVIEW1
+(Date_time varchar(18),
+ Rating int,
+ Comments varchar(120),
+ primary key(date_time)
+ );
+ 
+create table REVIEW2
+(Date_time varchar(18),
+ Rating int,
+ Comments varchar(120),
+ Serial_num int,
+ primary key(date_time),
+ foreign key(Serial_num) references ELEMENT1(Serial_number)
+ );
+ 
+create table REVIEW3
+(Date_time varchar(18),
+ Rating int,
+ Comments varchar(120),
+ Phone varchar(15),
+ primary key(date_time),
+ foreign key(Phone) references PERSON1(Phone)
+ );
+ 
+create table REVIEW4
+(Date_time varchar(18),
+ Rating int,
+ Comments varchar(120),
+ Rental_num int,
+ primary key(date_time),
+ foreign key(Rental_num) references RENTAL(Rental_number)
+ );
+ 
+create table ELEMENT1
+(Serial_number int,
+ Model varchar(20),
+ Name varchar(20),
+ Manufacturer varchar(20),
+ Warranty_expiration varchar(10),
+ Status booolean,
+ Year int,
+ primary key(serial_number)
+ );
+ 
+create table ELEMENT2
+(Serial_number int,
+ Model varchar(20),
+ Name varchar(20),
+ Manufacturer varchar(20),
+ Warranty_expiration varchar(10),
+ Status booolean,
+ Year int,
+ Address varchar(50),
+ primary key(serial_number),
+ foreign key(Address) references WAREHOUSE1(Address)
+ );
+ 
+create table MAINTENANCE_RECORD1
+(Date_time varchar(18),
+ Description varchar(60),
+ Hours int,
+ primary key(date_time)
+ );
+ 
+create table MAINTENANCE_RECORD2
+(Date_time varchar(18),
+ Description varchar(60),
+ Hours int,
+ Phone varchar(15),
+ primary key(date_time),
+ foreign key(Phone) references PERSON1(Phone)
+ );
+ 
+create table MAINTENANCE_RECORD3
+(Date_time varchar(18),
+ Description varchar(60),
+ Hours int,
+ Serial_num int,
+ primary key(date_time),
+ foreign key(Serial_num) references ELEMENT1(Serial_number)
+ );
+ 
+create table ORDER_HISTORY1
+(Element_type varchar(20),
+ Number_items int,
+ Date_time_arrival varchar(18),
+ Description varchar(60),
+ Value int,
+ primary key(element_type, number_items, date_time_arrival)
+ );
+ 
+create table ORDER_HISTORY2
+(Element_type varchar(20),
+ Number_items int,
+ Date_time_arrival varchar(18),
+ Description varchar(60),
+ Value int,
+ Address varchar(50),
+ primary key(element_type, number_items, date_time_arrival),
+ foreign key(Address) references WAREHOUSE1(Address)
+ );
+ 
+create table ORDER_HISTORY3
+(Element_type varchar(20),
+ Number_items int,
+ Date_time_arrival varchar(18),
+ Description varchar(60),
+ Value int,
+ Serial_num int,
+ primary key(element_type, number_items, date_time_arrival),
+ foreign key(Serial_num) references ELEMENT1(Serial_number)
+ );
+ 
+create table PAYMENT1
+(Date_time varchar(18),
+ Type varchar(10),
+ Amount int,
+ primary key(date_time)
+ );
+ 
+create table PAYMENT2
+(Date_time varchar(18),
+ Type varchar(10),
+ Amount int,
+ Rental_num int,
+ primary key(date_time),
+ foreign key(Rental_num) references RENTAL(Rental_number)
+ );
+ 
+create table PAYMENT3
+(Date_time varchar(18),
+ Type varchar(10),
+ Amount int,
+ Phone varchar(15),
+ primary key(date_time),
+ foreign key(Phone) references PERSON1(Phone)
+ );
+ 
+create table RENTAL
+(Due_date varchar(10),
+ Status boolean,
+ Payment_received boolean,
+ Rental_number int,
+ Rental_date_time varchar(18),
+ Checkout_date_time varchar(18),
+ Phone varchar(15),
+ primary key(rental_number),
+ foreign key(Phone) references PERSON1(Phone)
+ );
+ 
+create table WAREHOUSE1
+(City varchar(20),
+ Address varchar(45),
+ Phone varchar(15),
+ Manager_name varchar(20),
+ Storage_capacity int,
+ primary key(address)
+ );
+ 
+create table WAREHOUSE2
+(City varchar(20),
+ Address varchar(45),
+ Phone varchar(15),
+ Manager_name varchar(20),
+ Storage_capacity int,
+ primary key(address),
+ foreign key(City) references COMMUNITY(City)
+ );
+ 
+create table EQUIPMENT
+(Equipment_type varchar(20),
+ Weight int, 
+ Arrival_date varchar(10),
+ Size varchar(25),
+ Inventory_id int, 
+ Drone_capacity int,
+ Serial_num int,
+ primary key(inventory_id),
+ foreign key(Serial_num) references ELEMENT1(Serial_number)
+ );
+ 
+create table DRONE
+(Volume_capacity int,
+ Distance_autonomy int,
+ Max_speed int,
+ Fleet_id int,
+ Serial_num int,
+ foreign key(Serial_num) references ELEMENT1(Serial_number)
+ );
+
+create table COMMUNITY
+(City varchar(20),
+ Join_code varchar(8),
+ primary key(city)
+ );
+ 
+/* create table RENTAL_EQUIPMENT 
+(
+ foreign key(Rental_num) references RENTAL(Rental_number),
+ foreign key(Serial_num) references ELEMENT1(Serial_number)
+);
+
+/*
+create table RENTAL_DRONE
+(foreign key(Rental_num) references RENTAL(Rental_number),
+ foreign key(Serial_num) references ELEMENT1(Serial_number)
+); 
+ 
+
+ 
+
+
+
