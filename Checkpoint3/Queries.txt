@@ -1,0 +1,35 @@
+-- Find the description of all equipment by MANUFACTURER released before YEAR
+Select Name, Serial_number
+FROM Element
+WHERE Manufacturer = 'Caterpillar' AND Year < '2022';
+ -- Give all the watering equipment and their date of their checkout (renting) from a single member
+Select Serial_num, Equipment_type, Checkout_date_time
+FROM ((Equipment JOIN Rental_Equipment USING(Serial_num)) JOIN RENTAL ON Rental_num = Rental_number)
+Where Equipment_type = 'watering' AND Phone = '582-962-0745';
+
+
+-- List all the gardening equipment and their unique identifiers with less than 2 units held by the warehouse. 
+Select Serial_num, Equipment_type, Name, Count(Name) as Copies
+FROM (Equipment JOIN Element ON Serial_num = Serial_number)
+WHERE Address = '4374 Pennsylvania Court' AND Equipment_Type = 'gardening'
+HAVING Copies < 2 ;
+
+-- Give all the members who checked out (rented) an electric equipment delivered by DRONE and the electric equipment they checked out.
+Select First_name, Last_name, Phone, Rental_num, Serial_num, Equipment_type
+FROM ((EQUIPMENT JOIN RENTAL_EQUIPMENT USING(Serial_num) JOIN RENTAL ON Rental_num = Rental_number )) JOIN PERSON USING(Phone)
+WHERE Equipment_Type = 'electric';
+
+
+-- Find the total number of items rented by a single member (you choose how to designate the member)
+Select First_name, Last_name, Phone, COUNT(Serial_num) as Total_Items_Rented
+FROM (Rental JOIN Rental_Equipment ON Rental_number = Rental_num) JOIN PERSON USING (Phone)
+WHERE Phone = '938-128-5024’;
+
+
+-- Find the member who has rented the most computer & internet items and the total number of items they have checked out. 
+Select Phone, First_name, Last_name, COUNT(Serial_num) as Total_Rented
+FROM ((Rental_Equipment JOIN Equipment USING(Serial_num))JOIN Rental ON Rental_num = Rental_number) JOIN PERSON USING (Phone)
+WHERE Equipment_Type = 'computer & internet'
+GROUP BY Phone
+ORDER BY Total_Rented DESC
+Limit 1;

@@ -1,0 +1,13 @@
+-- This View display all of the rentals that have not received payments and the corresponding person and their contact information
+CREATE VIEW UNPAID_RENTALS AS
+SELECT Rental_number, Phone, First_name, Last_name, email, Due_date
+FROM Rental as R, Person as P
+WHERE R.Phone = P.Phone and R.Payment_received = 'FALSE’;
+
+
+-- This View display the number of trips a certain drone has flown and determines if it need maintenance  
+CREATE VIEW DRONE_TRIPS AS
+SELECT Serial_num, Name, Address, COUNT(Rental_num) as Trips, IIF(COUNT(Rental_num) <= 5, 'NO', 'YES') as Maintenance
+FROM RENTAL_DRONE JOIN ELEMENT ON Serial_num = Serial_number
+GROUP BY Serial_num
+ORDER BY Address;
