@@ -1,0 +1,16 @@
+— Find the maximum of payment which member is also an employee
+SELECT Phone,First_name,Last_name,MAX(Amount)
+FROM PAYMENT JOIN PERSON ON PAYMENT.Phone=PERSON.Phone
+WHERE is_Emp='TRUE'
+GROUP BY PERSON.Phone;
+
+— List the employee id and their name who work in warehouse with more than 3000 storage
+SELECT Employee_id,First_name,Last_name
+FROM PERSON JOIN WAREHOUSE ON PERSON.Address=WAREHOUSE.Address AND PERSON.is_Emp='TRUE'
+WHERE WAREHOUSE.Storage_capacity>3000;
+
+— Find the average amount of payment based on payment types, and payment should be received by warehouse
+SELECT Type,avg(Amount)
+FROM PAYMENT JOIN RENTAL ON PAYMENT.Rental_num=RENTAL.Rental_number
+WHERE RENTAL.Payment_received='TRUE'
+GROUP BY Type;
