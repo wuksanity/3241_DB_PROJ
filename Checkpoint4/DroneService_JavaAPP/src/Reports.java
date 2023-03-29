@@ -47,6 +47,9 @@ public class Reports {
             System.out.println("**DATABASE REPORT FAILED**");
             System.out.println("Error Message: " + e);
         }
+
+        System.out.println("** END OF REPORT **");
+        Menus.mainMenu();
     }
 
 }
