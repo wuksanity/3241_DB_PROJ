@@ -1,0 +1,52 @@
+E.)  
+  SELECT Manufacturer
+  FROM ELEMENT JOIN
+  (SELECT Serial_num
+  FROM ORDER_HISTORY
+  GROUP BY Serial_num
+  ORDER BY DESC
+  LIMIT 1) AS a ON ELEMENT.Serial_number = a.Serial_num;
+
+F.)
+  SELECT Name 
+  FROM ELEMENT 
+  WHERE ELEMENT.Serial_number = (
+  SELECT Serial_num
+  FROM RENTAL_EQUIPMENT JOIN  
+  (SELECT Rental_number, max(abs(julianday(Due_date) - julianday(Checkout_date_time)))
+  FROM RENTAL) AS a ON RENTAL_EQUIPMENT.Rental_num = a.Rental_number);
+
+G.)
+  SELECT First_name, Last_name
+  FROM PERSON 
+  WHERE Phone in (
+  SELECT DISTINCT Phone
+  FROM RENTAL
+  WHERE Rental_number in (
+  SELECT Rental_num
+  FROM RENTAL_EQUIPMENT 
+  WHERE Serial_num = (
+  SELECT Serial_num
+  FROM RENTAL_EQUIPMENT
+  GROUP BY Serial_num
+  ORDER BY COUNT(*) DESC
+  Limit 1)));
+
+H.)
+  SELECT DISTINCT Manufacturer 
+  FROM ELEMENT
+  WHERE Serial_number in (
+  Select DISTINCT Serial_num
+  FROM RENTAL_EQUIPMENT
+  WHERE Rental_num in (
+  SELECT Rental_number
+  FROM RENTAL
+  WHERE Phone in (
+  SELECT DISTINCT Phone
+  FROM RENTAL
+  GROUP BY Phone
+  HAVING COUNT(*) > (SELECT avg(ct) 
+  FROM (
+  SELECT COUNT(Phone) as ct
+  FROM RENTAL
+  GROUP BY Phone)))));
