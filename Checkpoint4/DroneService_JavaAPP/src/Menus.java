@@ -262,7 +262,7 @@ public class Menus {
         System.out.println(
                 "[5] Items checked out: Find the member who has rented out the most items and the total number of items they have rented out.");
         System.out.println(
-                "[6] Equipment by Type of equipment: Find the description (name) of equipment by type released before YEAR.");
+                "[6] Equipment of Manufacturer before Year: Find the description (name) of equipment by MANUFACTURER released before YEAR.");
         System.out.println("[0] Main Menu");
 
         boolean again = false;
