@@ -144,7 +144,7 @@ public class Community {
 
                 System.out.println("Select Option Below");
                 System.out.println(
-                        "[1] Search by name\n[2] Display all\n[3] Main Menu\n");
+                        "[1] Search by City\n[2] Display all\n[3] Main Menu\n");
                 System.out.print("Enter Here: ");
 
                 String selection = App.input.nextLine();
@@ -161,23 +161,10 @@ public class Community {
                         } else {
                             System.out.println("ERROR: Entry NOT Found");
                         }
-                        System.out.println("Would you like to Search again?");
-                        System.out.print("Enter Here [y/n]: ");
-                        selection = App.input.nextLine();
-                        if (selection.equals("y")) {
-                            again = true;
-                        }
 
                         break;
                     case "2":
                         displayAll();
-                        System.out.println("Would you like to search again?");
-                        System.out.print("Enter Here [y/n]: ");
-                        selection = App.input.nextLine();
-                        if (selection.equals("y")) {
-                            again = true;
-                        }
-
                         break;
                     case "3":
                         Menus.mainMenu();
@@ -187,6 +174,13 @@ public class Community {
                                 + " >, please enter integer between 1-3**");
                         again = true;
 
+                }
+
+                System.out.println("Would you like to Search again?");
+                System.out.print("Enter Here [y/n]: ");
+                selection = App.input.nextLine();
+                if (selection.equals("y")) {
+                    again = true;
                 }
 
             } catch (SQLException e) {
