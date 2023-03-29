@@ -1,36 +1,25 @@
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.util.Scanner;
 
 public class App {
 
+    public static Scanner input = new Scanner(System.in);
+
+    public static void exitProgram() {
+        DBConnection.close();
+        System.out.println("Ending Session...");
+        System.exit(0);
+
+    }
+
     public static void main(String[] args) throws Exception {
 
-        System.out.println("Welcome to the Equipment Rental Program");
-
-        String selection;
-        boolean valid = true;
+        System.out.println("Welcome to the Equipment Rental Program!");
+        //implement some sort of sign in?
 
         DBConnection.getConnection();
         Menus.mainMenu();
 
-        try {
-            String sql = "INSERT into COMMUNITY (City, Join_code) values (?, ?)";
-
-            PreparedStatement stmt = DBConnection.getConnection()
-                    .prepareStatement(sql);
-            stmt.setString(1, "Houston");
-            stmt.setString(2, "12345");
-
-            stmt.executeUpdate();
-            stmt.close();
-
-        } catch (SQLException e) {
-            System.out.println(e);
-        }
-
-        DBConnection.close();
-        System.out.println("End Session");
-
+        exitProgram();
     }
 
 }

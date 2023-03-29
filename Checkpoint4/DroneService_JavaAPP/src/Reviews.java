@@ -1,3 +1,4 @@
+import java.sql.SQLException;
 
 public class Reviews {
 
@@ -13,19 +14,23 @@ public class Reviews {
 
     }
 
-    public static void insertSQL() {
+    public static void insertSQL() throws SQLException {
 
     }
 
-    public static void updateSQL() {
+    public static void updateSQL() throws SQLException {
 
     }
 
-    public static void deleteSQL() {
+    public static void deleteSQL() throws SQLException {
 
     }
 
-    public static void selectSQL() {
+    public static void selectSQL() throws SQLException {
+
+    }
+
+    public static void displayAll() throws SQLException {
 
     }
 
