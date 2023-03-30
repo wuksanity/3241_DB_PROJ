@@ -22,29 +22,28 @@ GROUP BY ELEMENT.Serial_number
 ORDER BY COUNT(ELEMENT.Serial_number) DESC;
 
 D)
-SELECT ELEMENT.Model,ELEMENT.Name,ELEMENT.Manufacturer,ELEMENT.Year,ELEMENT.Address,ELEMENT.Serial_number
+SELECT ELEMENT.Model,ELEMENT.Name,ELEMENT.Manufacturer,ELEMENT.Year,ELEMENT.Address,ELEMENT.Serial_number, COUNT(ELEMENT.Serial_number) as Deliveries
 FROM ELEMENT,RENTAL_DRONE,RENTAL_EQUIPMENT
 WHERE ELEMENT.Serial_number=RENTAL_DRONE.Serial_num AND RENTAL_DRONE.Rental_num=RENTAL_EQUIPMENT.Rental_num
 GROUP BY ELEMENT.Serial_number
 ORDER BY COUNT(ELEMENT.Serial_number) DESC;
 
 E.)  
-  SELECT Manufacturer
-  FROM ELEMENT JOIN
-  (SELECT Serial_num
-  FROM ORDER_HISTORY
-  GROUP BY Serial_num
-  ORDER BY DESC
-  LIMIT 1) AS a ON ELEMENT.Serial_number = a.Serial_num;
+SELECT Manufacturer, COUNT(Serial_num) as Rented_Items
+FROM (RENTAL_EQUIPMENT as r JOIN ELEMENT as e ON r.Serial_num = e.Serial_number )
+GROUP BY Manufacturer
+ORDER BY Rented_Items DESC;
 
 F.)
-  SELECT Name 
-  FROM ELEMENT 
-  WHERE ELEMENT.Serial_number = (
-  SELECT Serial_num
-  FROM RENTAL_EQUIPMENT JOIN  
-  (SELECT Rental_number, max(abs(julianday(Due_date) - julianday(Checkout_date_time)))
-  FROM RENTAL) AS a ON RENTAL_EQUIPMENT.Rental_num = a.Rental_number);
+SELECT Serial_number, Name, Manufacturer, SUM(Time) as Total_rented_days, Count(Rental_number) as Total_Rentals
+FROM Element JOIN (
+    Select Serial_num as Serial_number, Time, Rental_number
+    FROM Rental_Equipment as R JOIN (
+    SELECT Rental_number, julianday(Due_date) - julianday(Checkout_date_time) as Time
+    FROM RENTAL) as e ON R.Rental_num = e.Rental_number )
+    USING(Serial_number)
+GROUP BY (Serial_number)
+ORDER BY Total_rented_days desc;
 
 G.)
   SELECT First_name, Last_name

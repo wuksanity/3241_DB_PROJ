@@ -252,17 +252,22 @@ public class Menus {
         System.out.println("*Enter \"exit\" to exit program*");
 
         System.out.println(
-                "[1] Renting checkouts: Find the total number of equipment items rented by a single member patron");
+                "[1] Renting checkouts: Find the total number of equipment items rented by a single given member");
         System.out.println(
                 "[2] Popular item: Find the most popular item in the database");
         System.out.println(
-                "[3] Popular Manufacturer: Find the most frequent equipment manufacturer in the database");
+                "[3] Popular Manufacturer: Find the most equipment manufacturer with the most rentals");
         System.out.println(
                 "[4] Popular Drone: Find the most used drone in the database");
         System.out.println(
                 "[5] Items checked out: Find the member who has rented out the most items and the total number of items they have rented out.");
+
         System.out.println(
                 "[6] Equipment of Manufacturer before Year: Find the description (name) of equipment by MANUFACTURER released before YEAR.");
+        System.out.println(
+                "[7] Drone Trips: display the number of trips a certain drone has flown and determines if it need maintenance ");
+        System.out.println(
+                "[8] Unpaid rentals: display all of the rentals that have not received payments and the corresponding person and their contact information");
         System.out.println("[0] Main Menu");
 
         boolean again = false;
@@ -291,6 +296,12 @@ public class Menus {
                 case "6":
                     Reports.Equipment_Before_Year();
                     break;
+                case "7":
+                    Reports.Drone_trips();
+                    break;
+                case "8":
+                    Reports.Unpaid_rentals();
+                    break;
                 case "0":
                     mainMenu();
                     break;
@@ -301,7 +312,7 @@ public class Menus {
                 default:
                     again = true;
                     System.out.println("**Invalid Input < " + selection
-                            + " >, please enter integer between 0-6**");
+                            + " >, please enter integer between 0-8**");
                     break;
             }
         } while (again);
