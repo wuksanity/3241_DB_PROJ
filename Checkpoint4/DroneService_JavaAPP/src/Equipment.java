@@ -5,7 +5,7 @@ import java.sql.SQLException;
 public class Equipment {
 
     public static void insert() {
-    	boolean again = false;
+        boolean again = false;
         do {
             again = false;
             System.out.println(
@@ -13,27 +13,28 @@ public class Equipment {
             System.out.println("ADD - EQUIPMENT");
 
             System.out.println("Enter the information as prompted.");
-            
+
             System.out.print("Equipment_type: ");
             String equipment_type = App.input.nextLine();
 
             System.out.print("Weight: ");
             String weight = App.input.nextLine();
-            
+
             System.out.print("Arrival_date: ");
             String arrival_date = App.input.nextLine();
-            
+
             System.out.print("Size: ");
             String size = App.input.nextLine();
-            
+
             System.out.print("Inventory: ");
             String inventory = App.input.nextLine();
-            
+
             System.out.print("Serial_num: ");
             String serial_num = App.input.nextLine();
 
             try {
-                insertSQL(equipment_type,weight,arrival_date,size,inventory,serial_num);
+                insertSQL(equipment_type, weight, arrival_date, size, inventory,
+                        serial_num);
                 System.out.println("Insertion Successful");
                 System.out.println("Would you like to add another?");
                 System.out.print("Enter Here [y/n]: ");
@@ -54,7 +55,7 @@ public class Equipment {
     }
 
     public static void edit() {
-    	boolean again = false;
+        boolean again = false;
         do {
             again = false;
             System.out.println(
@@ -85,8 +86,10 @@ public class Equipment {
                             switch (selection) {
                                 case "1":
                                     System.out.print("New Equipment_type: ");
-                                    String equipment_type = App.input.nextLine();
-                                    updateSQL(serial_num, equipment_type, "Equipment_type");
+                                    String equipment_type = App.input
+                                            .nextLine();
+                                    updateSQL(serial_num, equipment_type,
+                                            "Equipment_type");
                                     System.out.println("Update Successful");
                                     break;
                                 case "2":
@@ -98,21 +101,23 @@ public class Equipment {
                                 case "3":
                                     System.out.print("New Arrival_date: ");
                                     String arrival_date = App.input.nextLine();
-                                    updateSQL(serial_num, arrival_date, "Arrive_date");
+                                    updateSQL(serial_num, arrival_date,
+                                            "Arrive_date");
                                     System.out.println("Update Successful");
                                     break;
                                 case "4":
-                                	System.out.print("New Size:");
-                                	String size = App.input.nextLine();
-                                	updateSQL(serial_num, size, "Size");
-                                	System.out.println("Update Successful");
-                                	break;
+                                    System.out.print("New Size:");
+                                    String size = App.input.nextLine();
+                                    updateSQL(serial_num, size, "Size");
+                                    System.out.println("Update Successful");
+                                    break;
                                 case "5":
-                                	System.out.print("New Inventory: ");
-                                	String inventory = App.input.nextLine();
-                                	updateSQL(serial_num, inventory, "Inventory");
-                                	System.out.println("Update Successful");
-                                	break;
+                                    System.out.print("New Inventory: ");
+                                    String inventory = App.input.nextLine();
+                                    updateSQL(serial_num, inventory,
+                                            "Inventory");
+                                    System.out.println("Update Successful");
+                                    break;
                                 default:
                                     System.out.println("**Invalid Input < "
                                             + selection
@@ -176,7 +181,7 @@ public class Equipment {
     }
 
     public static void search() {
-    	boolean again = false;
+        boolean again = false;
 
         do {
             try {
@@ -196,7 +201,8 @@ public class Equipment {
                     case "1":
                         System.out
                                 .println("Enter the information as prompted.");
-                        System.out.print("Enter the Serial_num to search for: ");
+                        System.out
+                                .print("Enter the Serial_num to search for: ");
                         String serial_num = App.input.nextLine().trim();
 
                         if (selectSQL(serial_num)) {
@@ -236,9 +242,10 @@ public class Equipment {
         Menus.mainMenu();
     }
 
-    public static void insertSQL(String equipment_type,String weight,String arrival_date,String size,
-    		String inventory_id,String serial_num) throws SQLException {
-    	String sql = "INSERT into EQUIPMENT (Equipment_type, Weight, Arrival_date, Size, Inventory_id, Serial_num) values (?, ?, ?, ?, ?, ?);";
+    public static void insertSQL(String equipment_type, String weight,
+            String arrival_date, String size, String inventory_id,
+            String serial_num) throws SQLException {
+        String sql = "INSERT into EQUIPMENT (Equipment_type, Weight, Arrival_date, Size, Inventory_id, Serial_num) values (?, ?, ?, ?, ?, ?);";
 
         PreparedStatement stmt = DBConnection.getConnection()
                 .prepareStatement(sql);
@@ -253,8 +260,9 @@ public class Equipment {
         stmt.close();
     }
 
-    public static void updateSQL(String serial_num, String value, String attribute) throws SQLException {
-    	String sql = "UPDATE EQUIPMENT SET " + attribute
+    public static void updateSQL(String serial_num, String value,
+            String attribute) throws SQLException {
+        String sql = "UPDATE EQUIPMENT SET " + attribute
                 + " = ? WHERE Serial_num = ?;";
         PreparedStatement stmt = DBConnection.getConnection()
                 .prepareStatement(sql);
@@ -267,7 +275,7 @@ public class Equipment {
     }
 
     public static void deleteSQL(String serial_num) throws SQLException {
-    	String sql = "DELETE FROM EQUIPMENT WHERE Serial_num = ?;";
+        String sql = "DELETE FROM EQUIPMENT WHERE Serial_num = ?;";
         PreparedStatement stmt = DBConnection.getConnection()
                 .prepareStatement(sql);
 
@@ -278,7 +286,7 @@ public class Equipment {
     }
 
     public static boolean selectSQL(String serial_num) throws SQLException {
-    	boolean found = true;
+        boolean found = true;
         String sql = "SELECT * FROM EQUIPMENT WHERE Serial_num = ?;";
         PreparedStatement stmt = DBConnection.getConnection()
                 .prepareStatement(sql);
@@ -297,7 +305,7 @@ public class Equipment {
     }
 
     public static void displayAll() throws SQLException {
-    	String sql = "SELECT * FROM EQUIPMENT;";
+        String sql = "SELECT * FROM EQUIPMENT;";
         PreparedStatement stmt = DBConnection.getConnection()
                 .prepareStatement(sql);
         ResultSet results = stmt.executeQuery();

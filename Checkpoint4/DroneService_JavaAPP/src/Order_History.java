@@ -5,7 +5,7 @@ import java.sql.SQLException;
 public class Order_History {
 
     public static void insert() {
-    	boolean again = false;
+        boolean again = false;
         do {
             again = false;
             System.out.println(
@@ -13,27 +13,27 @@ public class Order_History {
             System.out.println("ADD - ORDER_HISTORY");
 
             System.out.println("Enter the information as prompted.");
-            
-            System.out.print("Date_time_arrival: ");
-            String date_time_arrival = App.input.nextLine();
+
+            String date_time_arrival = Utilities.getDateTime();
 
             System.out.print("Description: ");
             String description = App.input.nextLine();
-            
+
             System.out.print("Element_type: ");
             String element_type = App.input.nextLine();
-            
+
             System.out.print("Value: ");
             String value = App.input.nextLine();
-            
+
             System.out.print("Address: ");
             String address = App.input.nextLine();
-            
+
             System.out.print("Serial_num: ");
             String serial_num = App.input.nextLine();
-            
+
             try {
-                insertSQL(date_time_arrival,description,element_type,value,address,serial_num);
+                insertSQL(date_time_arrival, description, element_type, value,
+                        address, serial_num);
                 System.out.println("Insertion Successful");
                 System.out.println("Would you like to add another?");
                 System.out.print("Enter Here [y/n]: ");
@@ -54,7 +54,7 @@ public class Order_History {
     }
 
     public static void edit() {
-    	boolean again = false;
+        boolean again = false;
         do {
             again = false;
             System.out.println(
@@ -64,16 +64,16 @@ public class Order_History {
             System.out.println("Enter the information as prompted.");
             System.out.print("Enter the Date_time_arrival: ");
             String date_time_arrival = App.input.nextLine().trim();
-            
+
             System.out.print("Enter the Address: ");
             String address = App.input.nextLine().trim();
-            
+
             System.out.print("Enter the Serial_num: ");
             String serial_num = App.input.nextLine().trim();
-            
+
             try {
 
-                if (selectSQL(date_time_arrival,address,serial_num)) {
+                if (selectSQL(date_time_arrival, address, serial_num)) {
                     System.out.println("**Entry Found**");
                     System.out.println("Select Option Below");
                     System.out.println("[1] Edit\n[2] Delete \n[3] Main Menu");
@@ -93,19 +93,24 @@ public class Order_History {
                                 case "1":
                                     System.out.print("New Description: ");
                                     String description = App.input.nextLine();
-                                    updateSQL(date_time_arrival,address,serial_num, description, "Description");
+                                    updateSQL(date_time_arrival, address,
+                                            serial_num, description,
+                                            "Description");
                                     System.out.println("Update Successful");
                                     break;
                                 case "2":
                                     System.out.print("New Element_type: ");
                                     String element_type = App.input.nextLine();
-                                    updateSQL(date_time_arrival,address,serial_num, element_type, "Element_type");
+                                    updateSQL(date_time_arrival, address,
+                                            serial_num, element_type,
+                                            "Element_type");
                                     System.out.println("Update Successful");
                                     break;
                                 case "3":
                                     System.out.print("New Value: ");
                                     String value = App.input.nextLine();
-                                    updateSQL(date_time_arrival,address,serial_num, value,"Value");
+                                    updateSQL(date_time_arrival, address,
+                                            serial_num, value, "Value");
                                     System.out.println("Update Successful");
                                     break;
                                 default:
@@ -120,12 +125,15 @@ public class Order_History {
                         case "2":
                             System.out.println(
                                     "Are you sure you want to delete < "
-                                            + date_time_arrival + " > < "+address+" > < "+serial_num+" > ?");
+                                            + date_time_arrival + " > < "
+                                            + address + " > < " + serial_num
+                                            + " > ?");
                             System.out.print("Enter Here [y/n]: ");
                             selection = App.input.nextLine();
 
                             if (selection.equals("y")) {
-                                deleteSQL(date_time_arrival,address,serial_num);
+                                deleteSQL(date_time_arrival, address,
+                                        serial_num);
                                 System.out.println("Delete Successful");
                             }
 
@@ -171,7 +179,7 @@ public class Order_History {
     }
 
     public static void search() {
-    	boolean again = false;
+        boolean again = false;
 
         do {
             try {
@@ -193,14 +201,14 @@ public class Order_History {
                                 .println("Enter the information as prompted.");
                         System.out.print("Enter the Date_time_arrival: ");
                         String date_time_arrival = App.input.nextLine().trim();
-                        
+
                         System.out.print("Enter the Address: ");
                         String address = App.input.nextLine().trim();
-                        
+
                         System.out.print("Enter the Serial_num: ");
                         String serial_num = App.input.nextLine().trim();
 
-                        if (selectSQL(date_time_arrival,address,serial_num)) {
+                        if (selectSQL(date_time_arrival, address, serial_num)) {
                             System.out.println("**Entry Found**");
                         } else {
                             System.out.println("ERROR: Entry NOT Found");
@@ -237,9 +245,10 @@ public class Order_History {
         Menus.mainMenu();
     }
 
-    public static void insertSQL(String date_time_arrival,String description,String element_type,String value,
-    		String address,String serial_num) throws SQLException {
-    	String sql = "INSERT into ORDER_HISTORY (Date_time_arrival, Description, Element_type, Value, Address, Serial_num) values (?, ?, ?, ?, ?, ?);";
+    public static void insertSQL(String date_time_arrival, String description,
+            String element_type, String value, String address,
+            String serial_num) throws SQLException {
+        String sql = "INSERT into ORDER_HISTORY (Date_time_arrival, Description, Element_type, Value, Address, Serial_num) values (?, ?, ?, ?, ?, ?);";
 
         PreparedStatement stmt = DBConnection.getConnection()
                 .prepareStatement(sql);
@@ -254,9 +263,10 @@ public class Order_History {
         stmt.close();
     }
 
-    public static void updateSQL(String date_time_arrival, String address, String serial_num, 
-    		String value, String attribute) throws SQLException {
-    	String sql = "UPDATE ORDER_HISTORY SET " + attribute
+    public static void updateSQL(String date_time_arrival, String address,
+            String serial_num, String value, String attribute)
+            throws SQLException {
+        String sql = "UPDATE ORDER_HISTORY SET " + attribute
                 + " = ? WHERE Date_time_arrival = ? AND Address = ? AND Serial_num = ?;";
         PreparedStatement stmt = DBConnection.getConnection()
                 .prepareStatement(sql);
@@ -270,8 +280,9 @@ public class Order_History {
         stmt.close();
     }
 
-    public static void deleteSQL(String date_time_arrival, String address, String serial_num) throws SQLException {
-    	String sql = "DELETE FROM ORDER_HISTORY WHERE Date_time_arrival = ? AND Address = ? AND Serial_num = ?;";
+    public static void deleteSQL(String date_time_arrival, String address,
+            String serial_num) throws SQLException {
+        String sql = "DELETE FROM ORDER_HISTORY WHERE Date_time_arrival = ? AND Address = ? AND Serial_num = ?;";
         PreparedStatement stmt = DBConnection.getConnection()
                 .prepareStatement(sql);
 
@@ -283,8 +294,9 @@ public class Order_History {
         stmt.close();
     }
 
-    public static boolean selectSQL(String date_time_arrival, String address, String serial_num) throws SQLException {
-    	boolean found = true;
+    public static boolean selectSQL(String date_time_arrival, String address,
+            String serial_num) throws SQLException {
+        boolean found = true;
         String sql = "SELECT * FROM ORDER_HISTORY WHERE Date_time_arrival = ? AND Address = ? AND Serial_num = ?;";
         PreparedStatement stmt = DBConnection.getConnection()
                 .prepareStatement(sql);
@@ -305,7 +317,7 @@ public class Order_History {
     }
 
     public static void displayAll() throws SQLException {
-    	String sql = "SELECT * FROM ORDER_HISTORY;";
+        String sql = "SELECT * FROM ORDER_HISTORY;";
         PreparedStatement stmt = DBConnection.getConnection()
                 .prepareStatement(sql);
         ResultSet results = stmt.executeQuery();

@@ -13,8 +13,7 @@ public class Payments {
             System.out.println("ADD - PAYMENT");
 
             System.out.println("Enter the information as prompted.");
-            System.out.print("Date_time: ");
-            String date_time = App.input.nextLine();
+            String date_time = Utilities.getDateTime();
 
             System.out.print("Type: ");
             String type = App.input.nextLine();
@@ -75,8 +74,7 @@ public class Payments {
                     switch (selection) {
                         case "1":
                             System.out.println("Select an option to edit");
-                            System.out.println(
-                                    "[1] Type\n[2] Amount \n");
+                            System.out.println("[1] Type\n[2] Amount \n");
                             System.out.print("Enter Here: ");
                             selection = App.input.nextLine();
                             switch (selection) {
@@ -102,8 +100,8 @@ public class Payments {
                             break;
                         case "2":
                             System.out.println(
-                                    "Are you sure you want to delete < " + payment_key
-                                            + " > ?");
+                                    "Are you sure you want to delete < "
+                                            + payment_key + " > ?");
                             System.out.print("Enter Here [y/n]: ");
                             selection = App.input.nextLine();
 
@@ -174,7 +172,8 @@ public class Payments {
                     case "1":
                         System.out
                                 .println("Enter the information as prompted.");
-                        System.out.print("Enter the Date_time, Rental_num, and Phone to search for: ");
+                        System.out.print(
+                                "Enter the Date_time, Rental_num, and Phone to search for: ");
                         String payment_key = App.input.nextLine();
                         String[] key = payment_key.split("\\s*,\\s*");
 
@@ -215,7 +214,8 @@ public class Payments {
         Menus.mainMenu();
     }
 
-    public static void insertSQL(String date, String type, String amount, String rental_num, String phone) throws SQLException {
+    public static void insertSQL(String date, String type, String amount,
+            String rental_num, String phone) throws SQLException {
         String sql = "INSERT into Payment (Date_time, Type, Amount, Rental_num, Phone) values (?, ?, ?, ?, ?);";
 
         PreparedStatement stmt = DBConnection.getConnection()
@@ -230,9 +230,11 @@ public class Payments {
         stmt.close();
     }
 
-    public static void updateSQL(String[] key, String value, String attribute) throws SQLException {
+    public static void updateSQL(String[] key, String value, String attribute)
+            throws SQLException {
         String sql = "UPDATE PAYMENT SET " + attribute
-                + " = ? WHERE Date_time = ? " + "AND Rental_num = ? " + "AND Phone = ?;";
+                + " = ? WHERE Date_time = ? " + "AND Rental_num = ? "
+                + "AND Phone = ?;";
         PreparedStatement stmt = DBConnection.getConnection()
                 .prepareStatement(sql);
 
@@ -246,7 +248,8 @@ public class Payments {
     }
 
     public static void deleteSQL(String[] key) throws SQLException {
-        String sql = "DELETE FROM PAYMENT WHERE Date_time = ? " + "AND Rental_num = ? " + "AND Phone = ?;";
+        String sql = "DELETE FROM PAYMENT WHERE Date_time = ? "
+                + "AND Rental_num = ? " + "AND Phone = ?;";
         PreparedStatement stmt = DBConnection.getConnection()
                 .prepareStatement(sql);
 
@@ -260,7 +263,8 @@ public class Payments {
 
     public static boolean selectSQL(String[] key) throws SQLException {
         boolean found = true;
-        String sql = "SELECT * FROM PAYMENT WHERE Date_time = ? " + "AND Rental_num = ? " + "AND Phone = ?;";
+        String sql = "SELECT * FROM PAYMENT WHERE Date_time = ? "
+                + "AND Rental_num = ? " + "AND Phone = ?;";
         PreparedStatement stmt = DBConnection.getConnection()
                 .prepareStatement(sql);
 
@@ -278,7 +282,7 @@ public class Payments {
 
         return found;
     }
-    
+
     public static void displayAll() throws SQLException {
         String sql = "SELECT * FROM PAYMENT;";
         PreparedStatement stmt = DBConnection.getConnection()

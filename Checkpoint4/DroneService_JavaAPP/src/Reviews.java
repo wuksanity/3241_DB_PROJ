@@ -14,8 +14,7 @@ public class Reviews {
 
             System.out.println("Enter the information as prompted.");
 
-            System.out.print("Date_time: ");
-            String Date_time = App.input.nextLine();
+            String Date_time = Utilities.getDateTime();
 
             System.out.print("Rating: ");
             String Rating = App.input.nextLine();
@@ -33,7 +32,8 @@ public class Reviews {
             String Rental_num = App.input.nextLine();
 
             try {
-                insertSQL(Date_time, Rating, Comments, Serial_num, Phone, Rental_num);
+                insertSQL(Date_time, Rating, Comments, Serial_num, Phone,
+                        Rental_num);
                 System.out.println("Insertion Successful");
                 System.out.println("Would you like to add another?");
                 System.out.print("Enter Here [y/n]: ");
@@ -62,7 +62,8 @@ public class Reviews {
             System.out.println("EDIT - REVIEW");
 
             System.out.println("Enter the information as prompted.");
-            System.out.print("Enter the Date_time, Serial_num, Phone, Rental_num: ");
+            System.out.print(
+                    "Enter the Date_time, Serial_num, Phone, Rental_num: ");
             String rev_string = App.input.nextLine();
             String[] key = rev_string.split("\\s*,\\s*");
             try {
@@ -79,8 +80,7 @@ public class Reviews {
                     switch (selection) {
                         case "1":
                             System.out.println("Select an option to edit");
-                            System.out.println(
-                                    "[1] Rating \n[2] Comments \n");
+                            System.out.println("[1] Rating \n[2] Comments \n");
                             System.out.print("Enter Here: ");
                             selection = App.input.nextLine();
                             switch (selection) {
@@ -95,7 +95,7 @@ public class Reviews {
                                     updateSQL(key, Comments, "Comments");
 
                                     break;
-                                
+
                                 default:
                                     System.out.println("**Invalid Input < "
                                             + selection
@@ -108,8 +108,8 @@ public class Reviews {
                             break;
                         case "2":
                             System.out.println(
-                                    "Are you sure you want to delete < "
-                                            + key + " > ?");
+                                    "Are you sure you want to delete < " + key
+                                            + " > ?");
                             System.out.print("Enter Here [y/n]: ");
                             selection = App.input.nextLine();
 
@@ -220,7 +220,9 @@ public class Reviews {
         Menus.mainMenu();
     }
 
-    public static void insertSQL(String due, String rating, String comments, String serial, String phone, String rental_num) throws SQLException {
+    public static void insertSQL(String due, String rating, String comments,
+            String serial, String phone, String rental_num)
+            throws SQLException {
         String sql = "INSERT into REVIEW (Date_time, Rating, Comments, Serial_num, Phone, Rental_num) values (?, ?, ?, ?, ?, ?);";
 
         PreparedStatement stmt = DBConnection.getConnection()
@@ -236,7 +238,8 @@ public class Reviews {
         stmt.close();
     }
 
-    public static void updateSQL(String[] Key, String value, String attribute) throws SQLException {
+    public static void updateSQL(String[] Key, String value, String attribute)
+            throws SQLException {
         String sql = "UPDATE REVIEW SET " + attribute
                 + " = ? WHERE Date_time = ? AND Serial_num = ? AND Phone = ? AND Rental_num = ?;";
         PreparedStatement stmt = DBConnection.getConnection()
@@ -261,7 +264,6 @@ public class Reviews {
         stmt.setString(2, Key[1]);
         stmt.setString(3, Key[2]);
         stmt.setString(4, Key[3]);
-    
 
         stmt.executeUpdate();
         stmt.close();
