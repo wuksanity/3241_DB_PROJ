@@ -14,8 +14,7 @@ public class Maintenance_Records {
 
             System.out.println("Enter the information as prompted.");
 
-            System.out.print("Date_time: ");
-            String Date_time = App.input.nextLine();
+            String Date_time = Utilities.getDateTime();
 
             System.out.print("Description: ");
             String Description = App.input.nextLine();
@@ -76,8 +75,8 @@ public class Maintenance_Records {
                     switch (selection) {
                         case "1":
                             System.out.println("Select an option to edit");
-                            System.out.println(
-                                    "[1] Description \n[2] Hours \n");
+                            System.out
+                                    .println("[1] Description \n[2] Hours \n");
                             System.out.print("Enter Here: ");
                             selection = App.input.nextLine();
                             switch (selection) {
@@ -92,7 +91,7 @@ public class Maintenance_Records {
                                     updateSQL(key, hours, "Hours");
 
                                     break;
-                                
+
                                 default:
                                     System.out.println("**Invalid Input < "
                                             + selection
@@ -105,8 +104,8 @@ public class Maintenance_Records {
                             break;
                         case "2":
                             System.out.println(
-                                    "Are you sure you want to delete < "
-                                            + key + " > ?");
+                                    "Are you sure you want to delete < " + key
+                                            + " > ?");
                             System.out.print("Enter Here [y/n]: ");
                             selection = App.input.nextLine();
 
@@ -217,7 +216,8 @@ public class Maintenance_Records {
         Menus.mainMenu();
     }
 
-    public static void insertSQL(String date, String desc, String hrs, String phone, String serial) throws SQLException {
+    public static void insertSQL(String date, String desc, String hrs,
+            String phone, String serial) throws SQLException {
         String sql = "INSERT into MAINTENANCE_RECORD (Date_time, Description, Hours, Phone, Serial_num) values (?, ?, ?, ?, ?);";
 
         PreparedStatement stmt = DBConnection.getConnection()
@@ -232,7 +232,8 @@ public class Maintenance_Records {
         stmt.close();
     }
 
-    public static void updateSQL(String[] Key, String value, String attribute) throws SQLException {
+    public static void updateSQL(String[] Key, String value, String attribute)
+            throws SQLException {
         String sql = "UPDATE MAINTENANCE_RECORD SET " + attribute
                 + " = ? WHERE Date_time = ? AND Phone = ? AND Serial_num = ?;";
         PreparedStatement stmt = DBConnection.getConnection()
@@ -255,7 +256,6 @@ public class Maintenance_Records {
         stmt.setString(1, Key[0]);
         stmt.setString(2, Key[1]);
         stmt.setString(3, Key[2]);
-        
 
         stmt.executeUpdate();
         stmt.close();
@@ -270,7 +270,6 @@ public class Maintenance_Records {
         stmt.setString(1, Key[0]);
         stmt.setString(2, Key[1]);
         stmt.setString(3, Key[2]);
-                
 
         ResultSet results = stmt.executeQuery();
         if (Utilities.displayResults(results) == 0) {

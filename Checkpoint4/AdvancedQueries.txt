@@ -46,7 +46,7 @@ GROUP BY (Serial_number)
 ORDER BY Total_rented_days desc;
 
 G.)
-  SELECT First_name, Last_name
+  SELECT First_name, Last_name, Phone
   FROM PERSON 
   WHERE Phone in (
   SELECT DISTINCT Phone

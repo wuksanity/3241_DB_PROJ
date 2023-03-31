@@ -29,8 +29,7 @@ public class Rentals {
             System.out.print("Rental_date_time: ");
             String Rental_date_time = App.input.nextLine();
 
-            System.out.print("Checkout_date_time: ");
-            String Checkout_date_time = App.input.nextLine();
+            String Checkout_date_time = Utilities.getDateTime();
 
             System.out.print("Phone: ");
             String Phone = App.input.nextLine();
@@ -38,9 +37,9 @@ public class Rentals {
             System.out.print("Address: ");
             String Address = App.input.nextLine();
 
-
             try {
-                insertSQL(Due_date, Status, Payment_received, Rental_number, Rental_date_time, Checkout_date_time, Phone, Address);
+                insertSQL(Due_date, Status, Payment_received, Rental_number,
+                        Rental_date_time, Checkout_date_time, Phone, Address);
                 System.out.println("Insertion Successful");
                 System.out.println("Would you like to add another?");
                 System.out.print("Enter Here [y/n]: ");
@@ -93,7 +92,8 @@ public class Rentals {
                                 case "1":
                                     System.out.print("New Due_date: ");
                                     String due_date = App.input.nextLine();
-                                    updateSQL(Rental_number, due_date, "Due_date");
+                                    updateSQL(Rental_number, due_date,
+                                            "Due_date");
                                     break;
                                 case "2":
                                     System.out.print("New Status: ");
@@ -103,8 +103,10 @@ public class Rentals {
                                     break;
                                 case "3":
                                     System.out.print("New Payment Status: ");
-                                    String payment_received = App.input.nextLine();
-                                    updateSQL(Rental_number, payment_received, "Payment_received");
+                                    String payment_received = App.input
+                                            .nextLine();
+                                    updateSQL(Rental_number, payment_received,
+                                            "Payment_received");
 
                                     break;
                                 default:
@@ -230,27 +232,30 @@ public class Rentals {
         Menus.mainMenu();
     }
 
-    public static void insertSQL(String due, String status, String payment_rec, String rent_num, String rent_date, String checkout_date, String phone_num, String addr) throws SQLException {
-            String sql = "INSERT into RENTAL (Due_date, Status, Payment_received, Rental_number, Rental_date_time, Checkout_date_time, Phone, Address) values (?, ?, ?, ?, ?, ?, ?, ?);";
-    
-            PreparedStatement stmt = DBConnection.getConnection()
-                    .prepareStatement(sql);
-            stmt.setString(1, due);
-            stmt.setString(2, status);
-            stmt.setString(3, payment_rec);
-            stmt.setString(4, rent_num);
-            stmt.setString(5, rent_date);
-            stmt.setString(6, checkout_date);
-            stmt.setString(7, phone_num);
-            stmt.setString(8, addr);
-    
-            stmt.executeUpdate();
-            stmt.close();
+    public static void insertSQL(String due, String status, String payment_rec,
+            String rent_num, String rent_date, String checkout_date,
+            String phone_num, String addr) throws SQLException {
+        String sql = "INSERT into RENTAL (Due_date, Status, Payment_received, Rental_number, Rental_date_time, Checkout_date_time, Phone, Address) values (?, ?, ?, ?, ?, ?, ?, ?);";
+
+        PreparedStatement stmt = DBConnection.getConnection()
+                .prepareStatement(sql);
+        stmt.setString(1, due);
+        stmt.setString(2, status);
+        stmt.setString(3, payment_rec);
+        stmt.setString(4, rent_num);
+        stmt.setString(5, rent_date);
+        stmt.setString(6, checkout_date);
+        stmt.setString(7, phone_num);
+        stmt.setString(8, addr);
+
+        stmt.executeUpdate();
+        stmt.close();
     }
 
-    public static void updateSQL(String Rental_number, String value, String attribute) throws SQLException {
+    public static void updateSQL(String Rental_number, String value,
+            String attribute) throws SQLException {
         String sql = "UPDATE RENTAL SET " + attribute
-        + " = ? WHERE Rental_number = ?;";
+                + " = ? WHERE Rental_number = ?;";
         PreparedStatement stmt = DBConnection.getConnection()
                 .prepareStatement(sql);
 

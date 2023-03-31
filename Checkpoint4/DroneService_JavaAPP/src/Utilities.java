@@ -1,6 +1,8 @@
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Utilities {
 
@@ -32,6 +34,14 @@ public class Utilities {
         System.out.print("\n");
 
         return count;
+    }
+
+    public static String getDateTime() {
+        LocalDateTime dateObj = LocalDateTime.now();
+        DateTimeFormatter formatDate = DateTimeFormatter
+                .ofPattern("dd-MM-yyyy HH:mm:ss");
+        String formattedDate = dateObj.format(formatDate);
+        return formattedDate;
     }
 
 }
