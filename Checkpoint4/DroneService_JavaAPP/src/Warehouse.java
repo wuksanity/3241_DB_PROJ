@@ -84,19 +84,20 @@ public class Warehouse {
                                     System.out.print("New Phone: ");
                                     String phone = App.input.nextLine();
                                     updateSQL(address, phone, "Phone");
+                                    System.out.println("Update Successful");
                                     break;
                                 case "2":
                                     System.out.print("New Manager name: ");
                                     String manager = App.input.nextLine();
                                     updateSQL(address, manager, "Manager_name");
-
+                                    System.out.println("Update Successful");
                                     break;
                                 case "3":
                                     System.out.print("New Storage Capacity: ");
                                     String storage = App.input.nextLine();
                                     updateSQL(address, storage,
                                             "Storage_capacity");
-
+                                    System.out.println("Update Successful");
                                     break;
                                 default:
                                     System.out.println("**Invalid Input < "
@@ -105,7 +106,6 @@ public class Warehouse {
                                     again = true;
                                     break;
                             }
-                            System.out.println("Update Successful");
 
                             break;
                         case "2":
