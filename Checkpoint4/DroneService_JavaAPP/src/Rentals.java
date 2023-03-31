@@ -190,7 +190,7 @@ public class Rentals {
                     case "1":
                         System.out
                                 .println("Enter the information as prompted.");
-                        System.out.print("Enter the Address to search for: ");
+                        System.out.print("Enter the Rental_number to search for: ");
                         String Rental_number = App.input.nextLine().trim();
 
                         if (selectSQL(Rental_number)) {

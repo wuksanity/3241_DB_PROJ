@@ -62,7 +62,7 @@ public class Reviews {
             System.out.println("EDIT - REVIEW");
 
             System.out.println("Enter the information as prompted.");
-            System.out.print("Enter the Date_time, Serial_num, Phone, Rental_num: ");
+            System.out.print("Enter the Date_time, Serial_num, Phone, Rental_num separated by commas: ");
             String rev_string = App.input.nextLine();
             String[] key = rev_string.split("\\s*,\\s*");
             try {
@@ -170,7 +170,7 @@ public class Reviews {
 
                 System.out.println("Select Option Below");
                 System.out.println(
-                        "[1] Search by Date_time, Serial_num, Phone, and Rental_num \n[2] Display all\n[3] Main Menu\n");
+                        "[1] Search by Date_time, Serial_num, Phone, and Rental_num separated by commas \n[2] Display all\n[3] Main Menu\n");
                 System.out.print("Enter Here: ");
 
                 String selection = App.input.nextLine();

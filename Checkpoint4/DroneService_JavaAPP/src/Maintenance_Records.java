@@ -59,7 +59,7 @@ public class Maintenance_Records {
             System.out.println("EDIT - Maintenance_Records");
 
             System.out.println("Enter the information as prompted.");
-            System.out.print("Enter the Date_time, Phone, Serial_num: ");
+            System.out.print("Enter the Date_time, Phone, Serial_num separated by commas: ");
             String maint_key = App.input.nextLine();
             String[] key = maint_key.split("\\s*,\\s*");
             try {
@@ -176,7 +176,7 @@ public class Maintenance_Records {
                     case "1":
                         System.out
                                 .println("Enter the information as prompted.");
-                        System.out.print("Enter the Due_date, Phone, and Serial_num to search for: ");
+                        System.out.print("Enter the Due_date, Phone, and Serial_num separated by commas to search for: ");
                         String maint_key = App.input.nextLine();
                         String[] key = maint_key.split("\\s*,\\s*");
 
