@@ -7,6 +7,7 @@ public class App {
     public static void exitProgram() {
         DBConnection.close();
         System.out.println("Ending Session...");
+        System.out.println("Logout: " + Utilities.getDateTime());
         System.exit(0);
 
     }
@@ -15,7 +16,6 @@ public class App {
 
         System.out.println("Welcome to the Equipment Rental Program!");
         System.out.println("Login: " + Utilities.getDateTime());
-        //implement some sort of sign in?
 
         DBConnection.getConnection();
         Menus.mainMenu();
