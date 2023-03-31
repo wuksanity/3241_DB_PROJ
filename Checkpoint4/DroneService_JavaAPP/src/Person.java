@@ -14,6 +14,14 @@ public class Person {
 
             System.out.println("Enter the information as prompted.");
 
+            System.out.print("Is this information for an employee? (y/n): ");
+            String emp = App.input.nextLine();
+
+            String is_Emp;
+            String Employee_id;
+            String Emp_Start_Date;
+            String Wage;
+
             System.out.print("First_name: ");
             String First_name = App.input.nextLine();
 
@@ -28,21 +36,9 @@ public class Person {
 
             System.out.print("Email: ");
             String Email = App.input.nextLine();
-            
-            System.out.print("Employee_id: ");
-            String Employee_id = App.input.nextLine();
 
             System.out.print("User_id: ");
             String User_id = App.input.nextLine();
-            
-            System.out.print("Emp_Start_Date: ");
-            String Emp_Start_Date = App.input.nextLine();
-
-            System.out.print("Wage: ");
-            String Wage = App.input.nextLine();
-
-            System.out.print("is_Emp: ");
-            String is_Emp = App.input.nextLine();
 
             System.out.print("is_Mem: ");
             String is_Mem = App.input.nextLine();
@@ -61,6 +57,28 @@ public class Person {
 
             System.out.print("Address: ");
             String Address = App.input.nextLine();
+            
+            if (emp.equals("y")) {
+
+                is_Emp = "true";
+
+                System.out.print("Employee_id: ");
+                Employee_id = App.input.nextLine();
+
+                System.out.print("Emp_Start_Date: ");
+                Emp_Start_Date = App.input.nextLine();
+
+                System.out.print("Wage: ");
+                Wage = App.input.nextLine();
+
+            } else {    
+
+                is_Emp = "false";
+                Employee_id = null;
+                Emp_Start_Date = null;
+                Wage = null;
+
+            }
 
             try {
                 insertSQL(First_name, Last_name, Home_address, Phone, Email, Employee_id, User_id, Emp_Start_Date, Wage, is_Emp, is_Mem, Warehouse_distance, Activated, Start_Date, City, Address);
