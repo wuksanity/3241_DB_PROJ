@@ -1,0 +1,15 @@
+TO INSERT DATA INTO OUR DATABASE (WHEN EMPTY), YOU MUST FOLLOW THIS ORDER DUE TO OUR FOREIGN KEY
+
+Community
+Warehouse
+Person
+Element
+Equipment
+Drone
+Order_History
+Maintenance_Records
+Rental
+Rental_Drone
+Rental_Equipment
+Review
+Payment
