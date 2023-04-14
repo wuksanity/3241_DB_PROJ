@@ -1,0 +1,57 @@
+--
+-- File generated with SQLiteStudio v3.4.3 on Thu Mar 9 18:56:37 2023
+--
+-- Text encoding used: System
+--
+PRAGMA foreign_keys = off;
+BEGIN TRANSACTION;
+
+-- Table: COMMUNITY
+CREATE TABLE IF NOT EXISTS COMMUNITY
+(City varchar(20),Join_code varchar(8), PRIMARY KEY(City)
+ );
+
+-- Table: DRONE
+CREATE TABLE IF NOT EXISTS DRONE (Volume_capacity int, Distance_autonomy int, Max_speed int, Fleet_id int, Serial_num varchar (20), PRIMARY KEY (Serial_num), FOREIGN KEY (Serial_num) REFERENCES ELEMENT (Serial_number));
+
+-- Table: ELEMENT
+CREATE TABLE IF NOT EXISTS ELEMENT (Serial_number varchar (20), Model varchar (20), Name varchar (20), Manufacturer varchar (20), Warranty_expiration varchar (10), Status boolean, Year int, Address varchar (50), FOREIGN KEY(Address) REFERENCES WAREHOUSE (Address), PRIMARY KEY (serial_number));
+
+-- Table: EQUIPMENT
+CREATE TABLE IF NOT EXISTS EQUIPMENT (Equipment_type varchar (20), Weight int, Arrival_date varchar (10), Size varchar (25), Inventory_id int,  Serial_num varchar (20), PRIMARY KEY (Serial_num), FOREIGN KEY (Serial_num) REFERENCES ELEMENT (Serial_number));
+
+-- Table: MAINTENANCE_RECORD
+CREATE TABLE IF NOT EXISTS MAINTENANCE_RECORD (Date_time varchar (25), Description varchar (60), Hours int, Phone varchar (15), Serial_num varchar (20), FOREIGN KEY (Serial_num) REFERENCES ELEMENT (Serial_number), FOREIGN KEY(Phone) REFERENCES PERSON (Phone), PRIMARY KEY (date_time, Serial_num, Phone));
+
+-- Table: ORDER_HISTORY
+CREATE TABLE IF NOT EXISTS ORDER_HISTORY (Date_time_arrival varchar (25), Description varchar (100), Element_type varchar (20), Value int, Address varchar (50),Serial_num varchar (20), FOREIGN KEY (Serial_num) REFERENCES ELEMENT (Serial_number), FOREIGN KEY (Address) REFERENCES WAREHOUSE (Address), PRIMARY KEY (Date_time_arrival, Address, Serial_num));
+
+-- Table: PAYMENT
+CREATE TABLE IF NOT EXISTS PAYMENT (Date_time varchar (25), Type varchar (20), Amount int, Rental_num int, Phone varchar (15), FOREIGN KEY(Phone) REFERENCES PERSON (Phone), FOREIGN KEY (Rental_num) REFERENCES RENTAL (Rental_number), PRIMARY KEY (date_time, Rental_num, Phone));
+
+-- Table: PERSON
+CREATE TABLE IF NOT EXISTS PERSON (First_name varchar (20) NOT NULL, Last_name varchar (20) NOT NULL, Home_Address varchar (50), Phone varchar (15), Email varchar (50), Employee_id int, User_id int, Emp_Start_Date varchar (10), Wage int, is_Emp boolean, is_Mem boolean, Warehouse_distance int, Activated boolean, Start_Date varchar (10), City varchar (20),  Address varchar (50), FOREIGN KEY (City) REFERENCES COMMUNITY (City), FOREIGN KEY (Address) REFERENCES WAREHOUSE (Address), PRIMARY KEY (phone));
+
+-- Table: RENTAL
+CREATE TABLE IF NOT EXISTS RENTAL (Due_date varchar (10), Status boolean, Payment_received boolean, Rental_number int, Rental_date_time varchar (25), Checkout_date_time varchar (25), Phone varchar (15), Address varchar (50), FOREIGN KEY (Address) REFERENCES WAREHOUSE (Address), PRIMARY KEY (rental_number), FOREIGN KEY (Phone) REFERENCES PERSON (Phone));
+
+-- Table: RENTAL_DRONE
+CREATE TABLE IF NOT EXISTS RENTAL_DRONE (Rental_num int, Serial_num varchar (20), FOREIGN KEY(Rental_num) REFERENCES RENTAL (Rental_number),  FOREIGN KEY(Serial_num) REFERENCES  DRONE (Serial_number), PRIMARY KEY (Rental_num, Serial_num));
+
+-- Table: RENTAL_EQUIPMENT
+CREATE TABLE IF NOT EXISTS RENTAL_EQUIPMENT (Rental_num int, Serial_num varchar (20), FOREIGN KEY(Rental_num) REFERENCES RENTAL (Rental_number),  FOREIGN KEY(Serial_num) REFERENCES  EQUIPMENT (Serial_number), PRIMARY KEY (Rental_num, Serial_num));
+
+-- Table: REVIEW
+CREATE TABLE IF NOT EXISTS REVIEW (Date_time varchar (25), Rating int, Comments varchar (120), Serial_num varchar (20),  Phone varchar (15), Rental_num int, FOREIGN KEY (Rental_num) REFERENCES RENTAL (Rental_number),  FOREIGN KEY (Phone) REFERENCES PERSON (Phone), FOREIGN KEY (Serial_num) REFERENCES ELEMENT (Serial_number),PRIMARY KEY (date_time, Serial_num, Phone, Rental_num));
+
+-- Table: WAREHOUSE
+CREATE TABLE IF NOT EXISTS WAREHOUSE (City varchar (20), Address varchar (45), Phone varchar (15), Manager_name varchar (20), Storage_capacity int, FOREIGN KEY (City) REFERENCES COMMUNITY(City), PRIMARY KEY (address));
+
+COMMIT TRANSACTION;
+PRAGMA foreign_keys = on;
+
+
+ 
+
+
+

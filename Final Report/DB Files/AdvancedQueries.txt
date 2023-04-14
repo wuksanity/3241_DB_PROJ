@@ -1,0 +1,81 @@
+A)
+SELECT First_name,Last_name,SUM(Amount)
+FROM PERSON JOIN PAYMENT ON PERSON.Phone=PAYMENT.Phone
+GROUP BY First_name,Last_name;
+
+B)
+SELECT PERSON.First_name,PERSON.Last_name,PERSON.Email
+FROM PERSON,RENTAL,RENTAL_EQUIPMENT
+WHERE PERSON.Phone=RENTAL.Phone AND RENTAL.Rental_number=RENTAL_EQUIPMENT.Rental_num
+GROUP BY PERSON.First_name,PERSON.Last_name
+HAVING COUNT(RENTAL.Phone)>
+(SELECT AVG(Count)
+    FROM (SELECT COUNT(RENTAL.Phone) AS Count
+    FROM PERSON,RENTAL,RENTAL_EQUIPMENT
+    WHERE PERSON.Phone=RENTAL.Phone AND RENTAL.Rental_number=RENTAL_EQUIPMENT.Rental_num
+    GROUP BY PERSON.First_name,PERSON.Last_name));
+    
+C)
+SELECT ELEMENT.Model,ELEMENT.Name,ELEMENT.Manufacturer,ELEMENT.Year,ELEMENT.Address,ELEMENT.Serial_number
+FROM ELEMENT JOIN RENTAL_EQUIPMENT ON ELEMENT.Serial_number=RENTAL_EQUIPMENT.Serial_num
+GROUP BY ELEMENT.Serial_number
+ORDER BY COUNT(ELEMENT.Serial_number) DESC;
+
+D)
+SELECT ELEMENT.Model,ELEMENT.Name,ELEMENT.Manufacturer,ELEMENT.Year,ELEMENT.Address,ELEMENT.Serial_number, COUNT(ELEMENT.Serial_number) as Deliveries
+FROM ELEMENT,RENTAL_DRONE,RENTAL_EQUIPMENT
+WHERE ELEMENT.Serial_number=RENTAL_DRONE.Serial_num AND RENTAL_DRONE.Rental_num=RENTAL_EQUIPMENT.Rental_num
+GROUP BY ELEMENT.Serial_number
+ORDER BY COUNT(ELEMENT.Serial_number) DESC;
+
+E.)  
+SELECT Manufacturer, COUNT(Serial_num) as Rented_Items
+FROM (RENTAL_EQUIPMENT as r JOIN ELEMENT as e ON r.Serial_num = e.Serial_number )
+GROUP BY Manufacturer
+ORDER BY Rented_Items DESC;
+
+F.)
+SELECT Serial_number, Name, Manufacturer, SUM(Time) as Total_rented_days, Count(Rental_number) as Total_Rentals
+FROM Element JOIN (
+    Select Serial_num as Serial_number, Time, Rental_number
+    FROM Rental_Equipment as R JOIN (
+    SELECT Rental_number, julianday(Due_date) - julianday(Checkout_date_time) as Time
+    FROM RENTAL) as e ON R.Rental_num = e.Rental_number )
+    USING(Serial_number)
+GROUP BY (Serial_number)
+ORDER BY Total_rented_days desc;
+
+G.)
+  SELECT First_name, Last_name, Phone
+  FROM PERSON 
+  WHERE Phone in (
+  SELECT DISTINCT Phone
+  FROM RENTAL
+  WHERE Rental_number in (
+  SELECT Rental_num
+  FROM RENTAL_EQUIPMENT 
+  WHERE Serial_num = (
+  SELECT Serial_num
+  FROM RENTAL_EQUIPMENT
+  GROUP BY Serial_num
+  ORDER BY COUNT(*) DESC
+  Limit 1)));
+
+H.)
+  SELECT DISTINCT Manufacturer 
+  FROM ELEMENT
+  WHERE Serial_number in (
+  Select DISTINCT Serial_num
+  FROM RENTAL_EQUIPMENT
+  WHERE Rental_num in (
+  SELECT Rental_number
+  FROM RENTAL
+  WHERE Phone in (
+  SELECT DISTINCT Phone
+  FROM RENTAL
+  GROUP BY Phone
+  HAVING COUNT(*) > (SELECT avg(ct) 
+  FROM (
+  SELECT COUNT(Phone) as ct
+  FROM RENTAL
+  GROUP BY Phone)))));
