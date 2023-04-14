@@ -50,6 +50,28 @@ CREATE TABLE IF NOT EXISTS WAREHOUSE (City varchar (20), Address varchar (45), P
 COMMIT TRANSACTION;
 PRAGMA foreign_keys = on;
 
+-- This View display all of the rentals that have not received payments and the corresponding person and their contact information
+CREATE VIEW UNPAID_RENTALS AS
+SELECT Rental_number, Phone, First_name, Last_name, email, Due_date
+FROM Rental as R, Person as P
+WHERE R.Phone = P.Phone and R.Payment_received = 'FALSE’;
+
+-- This View display the number of trips a certain drone has flown and determines if it need maintenance  
+CREATE VIEW DRONE_TRIPS AS
+SELECT Serial_num, Name, Address, COUNT(Rental_num) as Trips, IIF(COUNT(Rental_num) <= 5, 'NO', 'YES') as Maintenance
+FROM RENTAL_DRONE JOIN ELEMENT ON Serial_num = Serial_number
+GROUP BY Serial_num
+ORDER BY Address;
+
+-- This creates an index on the Serial_num column of the MAINTENANCE_RECORD table
+CREATE INDEX maint_serial ON MAINTENANCE_RECORD (Serial_num);
+
+-- this creates an index on the Model column of the ELEMENT table
+CREATE INDEX elem_model ON ELEMENT(Model);
+
+-- This creates an index on the city column of the WAREHOUSE table
+CREATE INDEX ware_city ON WAREHOUSE(City);
+
 
  
 
