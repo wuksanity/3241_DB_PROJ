@@ -1,0 +1,94 @@
+﻿--
+-- File generated with SQLiteStudio v3.4.3 on Thu Mar 9 18:56:37 2023
+--
+-- Text encoding used: System
+--
+PRAGMA foreign_keys = off;
+BEGIN TRANSACTION;
+
+
+-- Table: COMMUNITY
+CREATE TABLE IF NOT EXISTS COMMUNITY
+(City varchar(20),Join_code varchar(8), PRIMARY KEY(City)
+ );
+
+
+-- Table: DRONE
+CREATE TABLE IF NOT EXISTS DRONE (Volume_capacity int, Distance_autonomy int, Max_speed int, Fleet_id int, Serial_num varchar (20), PRIMARY KEY (Serial_num), FOREIGN KEY (Serial_num) REFERENCES ELEMENT (Serial_number) ON DELETE SET NULL ON UPDATE CASCADE);
+
+
+-- Table: ELEMENT
+CREATE TABLE IF NOT EXISTS ELEMENT (Serial_number varchar (20), Model varchar (20), Name varchar (20), Manufacturer varchar (20), Warranty_expiration varchar (10), Status boolean, Year int, Address varchar (50), FOREIGN KEY(Address) REFERENCES WAREHOUSE (Address) ON DELETE SET NULL ON UPDATE CASCADE, PRIMARY KEY (serial_number));
+
+
+-- Table: EQUIPMENT
+CREATE TABLE IF NOT EXISTS EQUIPMENT (Equipment_type varchar (20), Weight int, Arrival_date varchar (10), Size varchar (25), Inventory_id int,  Serial_num varchar (20), PRIMARY KEY (Serial_num), FOREIGN KEY (Serial_num) REFERENCES ELEMENT (Serial_number) ON DELETE SET NULL ON UPDATE CASCADE);
+
+
+-- Table: MAINTENANCE_RECORD
+CREATE TABLE IF NOT EXISTS MAINTENANCE_RECORD (Date_time varchar (25), Description varchar (60), Hours int, Phone varchar (15), Serial_num varchar (20), FOREIGN KEY (Serial_num) REFERENCES ELEMENT (Serial_number) ON DELETE SET NULL ON UPDATE CASCADE, FOREIGN KEY(Phone) REFERENCES PERSON (Phone) ON DELETE SET NULL ON UPDATE CASCADE, PRIMARY KEY (date_time, Serial_num, Phone));
+
+
+-- Table: ORDER_HISTORY
+CREATE TABLE IF NOT EXISTS ORDER_HISTORY (Date_time_arrival varchar (25), Description varchar (100), Element_type varchar (20), Value int, Address varchar (50),Serial_num varchar (20), FOREIGN KEY (Serial_num) REFERENCES ELEMENT (Serial_number) ON DELETE SET NULL ON UPDATE CASCADE, FOREIGN KEY (Address) REFERENCES WAREHOUSE (Address) ON DELETE SET NULL ON UPDATE CASCADE, PRIMARY KEY (Date_time_arrival, Address, Serial_num));
+
+
+-- Table: PAYMENT
+CREATE TABLE IF NOT EXISTS PAYMENT (Date_time varchar (25), Type varchar (20), Amount int, Rental_num int, Phone varchar (15), FOREIGN KEY(Phone) REFERENCES PERSON (Phone) ON DELETE SET NULL ON UPDATE CASCADE, FOREIGN KEY (Rental_num) REFERENCES RENTAL (Rental_number) ON DELETE SET NULL ON UPDATE CASCADE, PRIMARY KEY (date_time, Rental_num, Phone));
+
+
+-- Table: PERSON
+CREATE TABLE IF NOT EXISTS PERSON (First_name varchar (20) NOT NULL, Last_name varchar (20) NOT NULL, Home_Address varchar (50), Phone varchar (15), Email varchar (50), Employee_id int, User_id int, Emp_Start_Date varchar (10), Wage int, is_Emp boolean, is_Mem boolean, Warehouse_distance int, Activated boolean, Start_Date varchar (10), City varchar (20),  Address varchar (50), FOREIGN KEY (City) REFERENCES COMMUNITY (City) ON DELETE SET NULL ON UPDATE CASCADE, FOREIGN KEY (Address) REFERENCES WAREHOUSE (Address) ON DELETE SET NULL ON UPDATE CASCADE, PRIMARY KEY (phone));
+
+
+-- Table: RENTAL
+CREATE TABLE IF NOT EXISTS RENTAL (Due_date varchar (10), Status boolean, Payment_received boolean, Rental_number int, Rental_date_time varchar (25), Checkout_date_time varchar (25), Phone varchar (15), Address varchar (50), FOREIGN KEY (Address) REFERENCES WAREHOUSE (Address) ON DELETE SET NULL ON UPDATE CASCADE, PRIMARY KEY (rental_number), FOREIGN KEY (Phone) REFERENCES PERSON (Phone) ON DELETE SET NULL ON UPDATE CASCADE);
+
+
+-- Table: RENTAL_DRONE
+CREATE TABLE IF NOT EXISTS RENTAL_DRONE (Rental_num int, Serial_num varchar (20), FOREIGN KEY(Rental_num) REFERENCES RENTAL (Rental_number) ON DELETE SET NULL ON UPDATE CASCADE,  FOREIGN KEY(Serial_num) REFERENCES  DRONE (Serial_number) ON DELETE SET NULL ON UPDATE CASCADE, PRIMARY KEY (Rental_num, Serial_num));
+
+
+-- Table: RENTAL_EQUIPMENT
+CREATE TABLE IF NOT EXISTS RENTAL_EQUIPMENT (Rental_num int, Serial_num varchar (20), FOREIGN KEY(Rental_num) REFERENCES RENTAL (Rental_number) ON DELETE SET NULL ON UPDATE CASCADE,  FOREIGN KEY(Serial_num) REFERENCES  EQUIPMENT (Serial_number) ON DELETE SET NULL ON UPDATE CASCADE, PRIMARY KEY (Rental_num, Serial_num));
+
+
+-- Table: REVIEW
+CREATE TABLE IF NOT EXISTS REVIEW (Date_time varchar (25), Rating int, Comments varchar (120), Serial_num varchar (20),  Phone varchar (15), Rental_num int, FOREIGN KEY (Rental_num) REFERENCES RENTAL (Rental_number) ON DELETE SET NULL ON UPDATE CASCADE,  FOREIGN KEY (Phone) REFERENCES PERSON (Phone) ON DELETE SET NULL ON UPDATE CASCADE, FOREIGN KEY (Serial_num) REFERENCES ELEMENT (Serial_number) ON DELETE SET NULL ON UPDATE CASCADE,PRIMARY KEY (date_time, Serial_num, Phone, Rental_num));
+
+
+-- Table: WAREHOUSE
+CREATE TABLE IF NOT EXISTS WAREHOUSE (City varchar (20), Address varchar (45), Phone varchar (15), Manager_name varchar (20), Storage_capacity int, FOREIGN KEY (City) REFERENCES COMMUNITY(City) ON DELETE SET NULL ON UPDATE CASCADE, PRIMARY KEY (address));
+
+
+COMMIT TRANSACTION;
+PRAGMA foreign_keys = on;
+
+
+-- This View display all of the rentals that have not received payments and the corresponding person and their contact information
+CREATE VIEW UNPAID_RENTALS AS
+SELECT Rental_number, Phone, First_name, Last_name, email, Due_date
+FROM Rental as R, Person as P
+WHERE R.Phone = P.Phone and R.Payment_received = 'FALSE’;
+
+
+
+
+-- This View display the number of trips a certain drone has flown and determines if it need maintenance  
+CREATE VIEW DRONE_TRIPS AS
+SELECT Serial_num, Name, Address, COUNT(Rental_num) as Trips, IIF(COUNT(Rental_num) <= 5, 'NO', 'YES') as Maintenance
+FROM RENTAL_DRONE JOIN ELEMENT ON Serial_num = Serial_number
+GROUP BY Serial_num
+ORDER BY Address;
+
+
+-- This creates an index on the Serial_num column of the MAINTENANCE_RECORD table
+CREATE INDEX maint_serial ON MAINTENANCE_RECORD (Serial_num);
+
+
+-- this creates an index on the Model column of the ELEMENT table
+CREATE INDEX elem_model ON ELEMENT(Model);
+
+
+-- This creates an index on the city column of the WAREHOUSE table
+CREATE INDEX ware_city ON WAREHOUSE(City);
